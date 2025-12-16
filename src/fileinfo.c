@@ -6,6 +6,7 @@
 #include "fileinfo.h"
 #include "utils.h"
 #include "options.h"
+#include "bsdinfo.h"
 
 void print_file_info(const char *path) {
     struct stat st;
@@ -36,5 +37,10 @@ void print_file_info(const char *path) {
         (unsigned long)st.st_ino,
         (unsigned long)st.st_nlink);
     printf("Modified: %s\n", tbuf);
+    printf("--------------NEW----------------\n");
+    print_permission_bits(st.st_mode);
+    print_special_bits(st.st_mode);
+    print_bsd_flags(&st);
+    print_birth_time(&st);
     printf("---------------------------------\n");
 }

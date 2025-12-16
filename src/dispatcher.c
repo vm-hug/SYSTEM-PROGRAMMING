@@ -10,8 +10,26 @@
 #include "search.h"
 #include "compare.h"
 #include "dirstat.h"
+#include "security.h"
+#include "watch.h"
+#include "output.h"
 
 void dispatch(int argc, char *argv[], int idx) {
+
+    // 1. Check Output Redirection
+    if (output_path[0] != '\0') {
+        redirect_output_to_file(output_path);
+    }
+
+    // 2. Check Watch
+    if (opt_watch) {
+        if (idx >= argc) {
+            printf("Usage: %s --watch <file>\n", argv[0]);
+            return;
+        }
+        start_watch(argv[idx]);
+        return;
+    }
 
     /* ===== --compare ===== */
     if (idx < argc && strcmp(argv[idx], "--compare") == 0) {
@@ -59,6 +77,16 @@ void dispatch(int argc, char *argv[], int idx) {
         return;
     }
 
+    /* ===== --audit ===== */
+    if (opt_audit) {
+        if (idx >= argc) {
+            printf("Usage: %s --audit <path>\n", argv[0]);
+            return;
+        }
+        audit_path(argv[idx]);
+        return;
+    }
+
     /* ===== FALLBACK: tree + file info ===== */
     if (idx >= argc) {
         printf("Missing path\n");
@@ -76,3 +104,4 @@ void dispatch(int argc, char *argv[], int idx) {
     else
         print_file_info(argv[idx]);
 }
+
