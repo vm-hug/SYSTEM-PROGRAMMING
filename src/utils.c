@@ -45,7 +45,7 @@ void print_permission_bits(mode_t m) {
     if (m & S_IWOTH) p[8] = 'w';
     if (m & S_IXOTH) p[9] = 'x';
 
-    /* special bits */
+
     if (m & S_ISUID) p[3] = (p[3] == 'x') ? 's' : 'S';
     if (m & S_ISGID) p[6] = (p[6] == 'x') ? 's' : 'S';
     if (m & S_ISVTX) p[9] = (p[9] == 'x') ? 't' : 'T';

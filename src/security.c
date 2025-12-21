@@ -17,9 +17,8 @@ static void audit_file(const char *path) {
         printf("[!] World-writable: %s\n", path);
 
     const char *home = getenv("HOME");
-    /* THÊM ĐIỀU KIỆN: S_ISREG(st.st_mode) để chỉ tìm file, bỏ qua thư mục */
     if (home && strstr(path, home) &&
-        S_ISREG(st.st_mode) &&   // <--- Chỉ báo nếu là file thường
+        S_ISREG(st.st_mode) && 
         (st.st_mode & S_IXUSR))
         printf("[!] Executable in HOME: %s\n", path);
 }

@@ -5,22 +5,20 @@
 #include <stdlib.h>
 #include "options.h"
 #include "fileinfo.h"
-#include "sort.h" // Include file sort mới
+#include "sort.h" 
 
-extern char parent_path_sort[1024]; // Lấy biến từ sort.c
+extern char parent_path_sort[1024]; 
 
 void walk_directory(const char *path, int depth) {
     struct dirent **namelist;
     int n;
 
-    // Thiết lập đường dẫn cha để sort.c dùng stat()
     strcpy(parent_path_sort, path);
 
-    // Dùng scandir để lấy danh sách và sort luôn
     if (opt_sort_type > 0) {
         n = scandir(path, &namelist, NULL, sort_compare);
     } else {
-        n = scandir(path, &namelist, NULL, alphasort); // Mặc định a-z
+        n = scandir(path, &namelist, NULL, alphasort);
     }
 
     if (n < 0) return;
@@ -35,7 +33,6 @@ void walk_directory(const char *path, int depth) {
             free(e); continue;
         }
 
-        // --- TREE ĐẸP + MÀU SẮC ---
         for (int k = 0; k < depth; k++) printf("│   ");
         
         char full[4096];
@@ -44,18 +41,13 @@ void walk_directory(const char *path, int depth) {
         struct stat st;
         lstat(full, &st);
 
-        // Icon & Màu (ANSI code)
         if (S_ISDIR(st.st_mode)) 
-            printf("├── \033[1;34m📁 %s\033[0m\n", e->d_name); // Xanh dương
+            printf("├── \033[1;34m📁 %s\033[0m\n", e->d_name); 
         else if (st.st_mode & S_IXUSR) 
-            printf("├── \033[1;32m🚀 %s\033[0m\n", e->d_name); // Xanh lá (exe)
+            printf("├── \033[1;32m🚀 %s\033[0m\n", e->d_name);
         else 
-            printf("├── \033[0;37m📄 %s\033[0m\n", e->d_name); // Trắng
+            printf("├── \033[0;37m📄 %s\033[0m\n", e->d_name); 
 
-        // In chi tiết file (nếu không phải mode tree thuần)
-        // print_file_info(full); <--- Tuỳ bạn muốn in chi tiết luôn hay chỉ tree
-
-        // Đệ quy
         if (opt_recursive && S_ISDIR(st.st_mode)) {
             walk_directory(full, depth + 1);
         }

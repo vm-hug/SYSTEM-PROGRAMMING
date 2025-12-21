@@ -16,12 +16,10 @@
 
 void dispatch(int argc, char *argv[], int idx) {
 
-    // 1. Check Output Redirection
     if (output_path[0] != '\0') {
         redirect_output_to_file(output_path);
     }
 
-    // 2. Check Watch
     if (opt_watch) {
         if (idx >= argc) {
             printf("Usage: %s --watch <file>\n", argv[0]);
@@ -31,7 +29,6 @@ void dispatch(int argc, char *argv[], int idx) {
         return;
     }
 
-    /* ===== --compare ===== */
     if (idx < argc && strcmp(argv[idx], "--compare") == 0) {
         if (idx + 2 >= argc) {
             printf("Usage: %s --compare <file1> <file2>\n", argv[0]);
@@ -41,7 +38,6 @@ void dispatch(int argc, char *argv[], int idx) {
         return;
     }
 
-    /* ===== --stat ===== */
     if (idx < argc && strcmp(argv[idx], "--stat") == 0) {
         if (idx + 1 >= argc) {
             printf("Usage: %s --stat <path>\n", argv[0]);
@@ -51,7 +47,6 @@ void dispatch(int argc, char *argv[], int idx) {
         return;
     }
 
-    /* ===== --find ===== */
     if (idx < argc && strcmp(argv[idx], "--find") == 0) {
         if (idx + 1 >= argc) {
             printf("Usage: %s --find name=xxx | size>xxx\n", argv[0]);
@@ -77,7 +72,6 @@ void dispatch(int argc, char *argv[], int idx) {
         return;
     }
 
-    /* ===== --audit ===== */
     if (opt_audit) {
         if (idx >= argc) {
             printf("Usage: %s --audit <path>\n", argv[0]);
@@ -87,7 +81,6 @@ void dispatch(int argc, char *argv[], int idx) {
         return;
     }
 
-    /* ===== FALLBACK: tree + file info ===== */
     if (idx >= argc) {
         printf("Missing path\n");
         return;

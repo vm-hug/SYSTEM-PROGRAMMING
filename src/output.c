@@ -8,6 +8,5 @@ void redirect_output_to_file(const char *filepath) {
             perror("Cannot open report file");
             exit(1);
         }
-        // Vì stdout đã bị redirect, các lệnh printf sau này sẽ ghi vào file
     }
 }

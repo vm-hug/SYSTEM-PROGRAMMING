@@ -26,7 +26,6 @@ void print_bsd_flags(struct stat *st) {
 
 void print_birth_time(struct stat *st) {
     char buf[64];
-    // NetBSD sử dụng st_birthtime
     struct tm *tm = localtime(&st->st_birthtime);
     strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M", tm);
     printf("Birth Time: %s\n", buf);

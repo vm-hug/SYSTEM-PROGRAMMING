@@ -13,9 +13,10 @@ void start_watch(const char *path) {
     }
 
     printf("👀 Watching changes for: %s (Ctrl+C to stop)\n", path);
+    fflush(stdout);
 
     while (1) {
-        sleep(1); // Poll mỗi 1 giây
+        sleep(1);
         if (stat(path, &current) != 0) {
             printf("File deleted or inaccessible!\n");
             break;
@@ -26,7 +27,7 @@ void start_watch(const char *path) {
             if (current.st_size != prev.st_size) {
                 printf("Size changed: %ld -> %ld\n", (long)prev.st_size, (long)current.st_size);
             }
-            prev = current; // Cập nhật trạng thái mới
+            prev = current;
         }
     }
 }

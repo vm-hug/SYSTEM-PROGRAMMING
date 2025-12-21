@@ -5,12 +5,17 @@
 int main(int argc, char *argv[]) {
     int idx = 1;
 
-    /* SỬA LỖI:
-       Cho phép parse_options chạy nếu tham số KHÔNG bắt đầu bằng "--" 
-       HOẶC nếu tham số chính xác là "--audit" 
-    */
-    if (argc > 1 && (strncmp(argv[1], "--", 2) != 0 || strcmp(argv[1], "--audit") == 0)) {
+    if(argc > 1) {
         parse_options(argc, argv, &idx);
+    }else {
+        idx = 1;
+    }
+
+    if (idx >= argc && !opt_find && !opt_watch && !opt_compare) {
+        static char *dot[] = { "fileexplorer", "." };
+        argv = dot;
+        argc = 2;
+        idx = 1;
     }
 
     dispatch(argc, argv, idx);

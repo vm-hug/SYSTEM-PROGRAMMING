@@ -11,9 +11,17 @@ void compare_files(const char *f1, const char *f2) {
         return;
     }
 
-    printf("Attribute        %s        %s\n", f1, f2);
-    printf("Size             %ld        %ld\n", a.st_size, b.st_size);
-    printf("Permission       %o         %o\n", a.st_mode & 0777, b.st_mode & 0777);
-    printf("Inode            %lu        %lu\n", a.st_ino, b.st_ino);
-    printf("Links            %u         %u\n", a.st_nlink, b.st_nlink);
+
+    printf("\n"); 
+    printf("%-12s %-25s %-25s\n", "Attribute", f1, f2);
+    printf("--------------------------------------------------------------\n");
+    
+    printf("%-12s %-25ld %-25ld\n", "Size", (long)a.st_size, (long)b.st_size);
+    
+    printf("%-12s %-25o %-25o\n", "Permission", a.st_mode & 0777, b.st_mode & 0777);
+    
+    printf("%-12s %-25lu %-25lu\n", "Inode", (unsigned long)a.st_ino, (unsigned long)b.st_ino);
+    
+    printf("%-12s %-25u %-25u\n", "Links", (unsigned int)a.st_nlink, (unsigned int)b.st_nlink);
+    printf("\n");
 }
